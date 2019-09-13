@@ -19,6 +19,9 @@ adonis new yardstick --api-only
 or manually clone the repo and then run `npm install`.
 
 
+Create a database and setup .env file using .env.example as an example.
+
+
 ### Migrations
 
 Run the following command to run startup migrations.
