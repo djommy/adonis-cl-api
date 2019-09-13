@@ -40,7 +40,7 @@ class ClubController {
     const club = await Club.create(payload)
 
     response.status('200').json({
-      message: 'Successfully saved club',
+      message: 'Successfully created club',
       data: club
     })
   }
@@ -68,7 +68,16 @@ class ClubController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params: { id }, request, response }) {
+    const club = await Club.find(id)
+    const payload = request.all()
+
+    await club.save(payload)
+
+    response.status(200).json({
+      message: `Successfully updated club ${club.name}`,
+      data: club
+    })
   }
 
   /**

@@ -25,4 +25,5 @@ Route.group(() => {
   Route.post('clubs', 'App/Controllers/Http/ClubController.store')
   Route.get('clubs/:id', 'App/Controllers/Http/ClubController.show')
   Route.delete('clubs/:id', 'App/Controllers/Http/ClubController.destroy')
+  Route.patch('clubs/:id', 'App/Controllers/Http/ClubController.update')
 }).prefix('api')
