@@ -1,6 +1,7 @@
 'use strict'
 
 const Club = use('App/Models/Club')
+const Database = use('Database')
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -95,6 +96,41 @@ class ClubController {
     response.status(200).json({
       message: `Deleted ${club.name}`,
       data: club
+    })
+  }
+
+  /**
+   * Get all clubs who are winners.
+   * GET clubs/winners
+   *
+   * @param {object} ctx
+   * @param {Response} ctx.response
+   */
+  async fetchWinners({ response }) {
+    const winners = await Database.from('clubs').where({ position: 'Winner' })
+
+    response.status(200).json({
+      message: `Winners Clubs`,
+      data: winners
+    })
+  }
+
+  /**
+ * Get all clubs who are winners for season.
+ * GET clubs/winners/:season
+ *
+ * @param {object} ctx
+ * @param {Response} ctx.response
+ */
+  async fetchWinnersForSeason({ params: {season}, response }) {
+    const winnersFromSeason =
+      await Database.from('clubs')
+        .where({ position: 'Winner' })
+        .andWhere({ season: season })
+
+    response.status(200).json({
+      message: `Winners Clubs for season ${season}`,
+      data: winnersFromSeason
     })
   }
 }
