@@ -19,3 +19,13 @@ const Route = use('Route')
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
+
+Route.group(() => {
+  Route.get('clubs', 'App/Controllers/Http/ClubController.index')
+  Route.post('clubs', 'App/Controllers/Http/ClubController.store')
+  Route.get('clubs/winners', 'App/Controllers/Http/ClubController.fetchWinners')
+  Route.get('clubs/winners/:season', 'App/Controllers/Http/ClubController.fetchWinnersForSeason')
+  Route.get('clubs/:id', 'App/Controllers/Http/ClubController.show')
+  Route.delete('clubs/:id', 'App/Controllers/Http/ClubController.destroy')
+  Route.patch('clubs/:id', 'App/Controllers/Http/ClubController.update')
+}).prefix('api')
