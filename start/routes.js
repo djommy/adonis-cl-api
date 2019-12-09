@@ -22,6 +22,7 @@ Route.get('/', () => {
 
 Route.group(() => {
   Route.get('clubs', 'App/Controllers/Http/ClubController.index')
+
   Route.post('clubs', 'App/Controllers/Http/ClubController.store')
   Route.get('clubs/winners', 'App/Controllers/Http/ClubController.fetchWinners')
   Route.get('clubs/winners/:season', 'App/Controllers/Http/ClubController.fetchWinnersForSeason')
@@ -29,3 +30,8 @@ Route.group(() => {
   Route.delete('clubs/:id', 'App/Controllers/Http/ClubController.destroy')
   Route.patch('clubs/:id', 'App/Controllers/Http/ClubController.update')
 }).prefix('api')
+
+Route.group(() => {
+  Route.post('register', 'App/Controllers/Http/AuthController.register')
+  Route.post('login', 'App/Controllers/Http/AuthController.login')
+}).prefix('auth')
