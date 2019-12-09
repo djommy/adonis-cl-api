@@ -29,3 +29,8 @@ Route.group(() => {
   Route.delete('clubs/:id', 'App/Controllers/Http/ClubController.destroy')
   Route.patch('clubs/:id', 'App/Controllers/Http/ClubController.update')
 }).prefix('api')
+
+Route.group(() => {
+  Route.post('register', 'App/Controllers/Http/AuthController.register')
+  Route.post('login', 'App/Controllers/Http/AuthController.login')
+}).prefix('auth')
