@@ -16,7 +16,7 @@ class AuthController {
     let user = await User.create(request.all())
 
     //generate token for user;
-    let token = await auth.generate(user)
+    let token = await auth.generate(user, true)
 
     Object.assign(user, token)
 
@@ -39,13 +39,14 @@ class AuthController {
     let { email, password } = request.all();
 
     try {
-      if (await auth.attempt(email, password)) {
-        let user = await User.findBy('email', email)
-        let token = await auth.generate(user)
+      await auth
+        .withRefreshToken()
+        .attempt(email, password)
+      let user = await User.findBy('email', email)
+      let token = await auth.generate(user)
 
-        Object.assign(user, token)
-        return response.json(user)
-      }
+      Object.assign(user, token)
+      return response.json(user)
 
 
     }

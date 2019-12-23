@@ -37,13 +37,19 @@ class ClubController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-    const payload = request.all()
-    const club = await Club.create(payload)
+    if (request.input('name') && request.input('country')) {
+      const payload = request.all()
+      const club = await Club.create(payload)
 
-    response.status('200').json({
-      message: 'Successfully created club',
-      data: club
-    })
+      response.status('200').json({
+        message: 'Successfully created club',
+        data: club
+      })
+    } else {
+      response.json({
+        message: 'Invalid data provided. Club {name} and {country} are required'
+      })
+    }
   }
 
   /**
@@ -70,15 +76,22 @@ class ClubController {
    * @param {Response} ctx.response
    */
   async update({ params: { id }, request, response }) {
-    const club = await Club.find(id)
-    const payload = request.all()
+    try {
+      const club = await Club.find(id)
+      const payload = request.all()
+      const updatedClub = Object.assign(club, payload)
 
-    await club.save(payload)
+      await club.save(updatedClub)
 
-    response.status(200).json({
-      message: `Successfully updated club ${club.name}`,
-      data: club
-    })
+      response.status(200).json({
+        message: `Successfully updated club ${club.name}`,
+        data: club
+      })
+    } catch (error) {
+      reponse.status(200).json({
+        message: error
+      })
+    }
   }
 
   /**
